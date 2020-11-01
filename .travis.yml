@@ -4,7 +4,7 @@ go:
   - 1.15.x
   - tip
 
-go_import_path: github.com/kc596/PriorityWorkerPool
+go_import_path: github.com/kc596/priorityworkerpool
 
 before_install:
   - go get -t -v ./...

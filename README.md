@@ -1,14 +1,14 @@
 ## Priority Worker Pool
 
-[![Build Status](https://travis-ci.org/kc596/PriorityWorkerPool.svg?branch=master)](https://travis-ci.org/kc596/PriorityWorkerPool)
-[![codecov](https://codecov.io/gh/kc596/PriorityWorkerPool/branch/master/graph/badge.svg?token=4TOHO1P4XV)](https://codecov.io/gh/kc596/PriorityWorkerPool)
-[![Go Report Card](https://goreportcard.com/badge/github.com/kc596/PriorityWorkerPool)](https://goreportcard.com/report/github.com/kc596/PriorityWorkerPool)
+[![Build Status](https://travis-ci.org/kc596/priorityworkerpool.svg?branch=master)](https://travis-ci.org/kc596/priorityworkerpool)
+[![codecov](https://codecov.io/gh/kc596/priorityworkerpool/branch/master/graph/badge.svg?token=4TOHO1P4XV)](https://codecov.io/gh/kc596/priorityworkerpool)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kc596/priorityworkerpool)](https://goreportcard.com/report/github.com/kc596/priorityworkerpool)
 
 A worker pool in GoLang which schedules job according to priority.
 
 ### Installation
 
-> go get github.com/kc596/PriorityWorkerPool
+> go get github.com/kc596/priorityworkerpool
 
 ### Quickstart
 
@@ -18,7 +18,13 @@ var panicHandler = func(alias string, err interface{}) {
 	fmt.Println(alias, err) // or use logger
 }
 
-pool := New("testPool", 100, panicHandler)
+
+const (
+	poolName   = "testPool"
+	numWorkers = 1000
+)
+
+pool := New(poolName, numWorkers, panicHandler)
 
 for _, job := range jobs {  // jobs are slices of func()
 	pool.Submit(job, 1+rand.Float64())
@@ -29,6 +35,6 @@ for _, job := range jobs {  // jobs are slices of func()
 
 Method | Return Type | Description
 ---|---|---
-` New(name string, workers int, panicHandler func(alias string, err interface{})`|`*Pool` | Returns a new Worker pool
+` New(name string, workers int, panicHandler func(alias string, err interface{})`|`*Pool` | Returns a new worker pool
 `Submit(job func(), priority float64)` | `void` | Submit a new job to worker pool
 `WaitGroup()` | `*sync.WaitGroup` | Returns waitgroup to wait for all jobs submitted to finish

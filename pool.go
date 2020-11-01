@@ -1,4 +1,4 @@
-package PriorityWorkerPool
+package priorityworkerpool
 
 import (
 	"fmt"

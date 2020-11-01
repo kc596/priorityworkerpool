@@ -1,4 +1,4 @@
-module github.com/kc596/PriorityWorkerPool
+module github.com/kc596/priorityworkerpool
 
 go 1.15
 
