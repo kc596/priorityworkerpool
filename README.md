@@ -1,5 +1,8 @@
 ## Priority Worker Pool
 
+[![Build Status](https://travis-ci.org/kc596/PriorityWorkerPool.svg?branch=master)](https://travis-ci.org/kc596/PriorityWorkerPool)
+[![codecov](https://codecov.io/gh/kc596/PriorityWorkerPool/branch/master/graph/badge.svg?token=4TOHO1P4XV)](https://codecov.io/gh/kc596/PriorityWorkerPool)
+
 A worker pool in GoLang which schedules job according to priority.
 
 ### Installation
