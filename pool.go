@@ -6,6 +6,7 @@ import (
 	"sync"
 )
 
+// Worker Pool Type
 type Pool struct {
 	name         string
 	workers      chan int
@@ -18,6 +19,7 @@ type Pool struct {
 * Worker Pool APIs
 ***************************************************************************/
 
+// Creates a new worker pool to manage goroutines
 func New(name string, workers int, panicHandler func(alias string, err interface{})) *Pool {
 	pool := &Pool{
 		name:         name,
@@ -33,6 +35,7 @@ func New(name string, workers int, panicHandler func(alias string, err interface
 	return pool
 }
 
+// Submit a job to worker pool
 func (pool *Pool) Submit(job func(), priority float64) {
 	defer func() {
 		if err := recover(); err != nil {
