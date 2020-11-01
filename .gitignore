@@ -1,0 +1,12 @@
+# Test binary, built with `go test -c`
+*.test
+
+# Ignoring IDE
+.vscode/
+.idea/
+
+# MAC OS
+**/.DS_Store
+
+# Logs
+logs/
