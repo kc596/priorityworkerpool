@@ -6,7 +6,7 @@ import (
 	"sync"
 )
 
-// Worker Pool Type
+// Pool is type for Worker Pool
 type Pool struct {
 	name         string
 	workers      chan int
@@ -19,7 +19,7 @@ type Pool struct {
 * Worker Pool APIs
 ***************************************************************************/
 
-// Creates a new worker pool to manage goroutines
+// New creates a new worker pool to manage goroutines
 func New(name string, workers int, panicHandler func(alias string, err interface{})) *Pool {
 	pool := &Pool{
 		name:         name,
@@ -47,7 +47,7 @@ func (pool *Pool) Submit(job func(), priority float64) {
 	pool.wg.Add(1)
 }
 
-// Returns waitgroup to wait for all jobs submitted to finish
+// WaitGroup to wait for all jobs submitted to finish
 // WARNING: would not wait if there are no jobs at the instant
 func (pool *Pool) WaitGroup() *sync.WaitGroup {
 	return pool.wg
