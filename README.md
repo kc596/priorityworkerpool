@@ -13,6 +13,8 @@ A worker pool in GoLang which schedules job according to priority.
 ### Quickstart
 
 ```go
+import "github.com/kc596/priorityworkerpool"
+
 const (
 	poolName   = "testPool"
 	numWorkers = 1000
@@ -22,11 +24,13 @@ var panicHandler = func(alias string, err interface{}) {
 	fmt.Println(alias, err) // or use logger
 }
 
-pool := New(poolName, numWorkers, panicHandler)
+pool := priorityworkerpool.New(poolName, numWorkers, panicHandler)
 
-for _, job := range jobs {  // jobs are slices of func()
-	pool.Submit(job, 1+rand.Float64())
+job := func() {
+	// code to execute
 }
+
+pool.Submit(job, 1+rand.Float64())
 ```
 
 ### APIs

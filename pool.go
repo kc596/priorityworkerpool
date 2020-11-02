@@ -20,9 +20,9 @@ type Pool struct {
 
 // panic aliases and messages
 const (
-	AliasSubmitPanic    = "SubmitJob"
-	AliasSchedulePanic  = "JobQueue"
-	ErrSubmitOnShutDown = "Pool is shut down"
+	aliasSubmitPanic    = "SubmitJob"
+	aliasSchedulePanic  = "JobQueue"
+	errSubmitOnShutDown = "Pool is shut down"
 )
 
 /***************************************************************************
@@ -51,11 +51,11 @@ func New(name string, workers int, panicHandler func(alias string, err interface
 func (pool *Pool) Submit(job func(), priority float64) {
 	defer func() {
 		if err := recover(); err != nil {
-			pool.panicHandler(AliasSubmitPanic, err)
+			pool.panicHandler(fmt.Sprintf("%s-%s", pool.name, aliasSubmitPanic), err)
 		}
 	}()
 	if atomic.LoadUint32(&pool.active) == uint32(0) {
-		panic(ErrSubmitOnShutDown)
+		panic(errSubmitOnShutDown)
 		return
 	}
 	node := maxpq.NewNode(job, priority)
@@ -99,7 +99,7 @@ func (pool *Pool) start() {
 func (pool *Pool) schedule() {
 	defer func() {
 		if err := recover(); err != nil {
-			pool.panicHandler(AliasSchedulePanic, err)
+			pool.panicHandler(fmt.Sprintf("%s-%s", pool.name, aliasSchedulePanic), err)
 		}
 	}()
 	node, err := pool.jobQueue.Pop()

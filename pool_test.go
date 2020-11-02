@@ -93,7 +93,7 @@ func TestScheduleError(t *testing.T) {
 		panicHandler = func(alias string, err interface{}) {
 			atomic.AddUint32(&panicCount, 1)
 			// Do work panic
-			assert.Equal(alias, AliasSchedulePanic)
+			assert.Equal(alias, fmt.Sprintf("%s-%s", poolName, aliasSchedulePanic))
 		}
 		pool = New(poolName, numWorkers, panicHandler)
 	)
@@ -109,8 +109,8 @@ func TestPoolShutDown(t *testing.T) {
 		panicCount   = uint32(0)
 		panicHandler = func(alias string, err interface{}) {
 			atomic.AddUint32(&panicCount, 1)
-			assert.Equal(alias, AliasSubmitPanic)
-			assert.Equal(err, ErrSubmitOnShutDown)
+			assert.Equal(alias, fmt.Sprintf("%s-%s", poolName, aliasSubmitPanic))
+			assert.Equal(err, errSubmitOnShutDown)
 		}
 		pool     = New(poolName, numWorkers, panicHandler)
 		executed uint32
