@@ -4,16 +4,26 @@ import (
 	"fmt"
 	"github.com/kc596/UGCPriorityQueue/maxpq"
 	"sync"
+	"sync/atomic"
 )
 
 // Pool is type for Worker Pool
 type Pool struct {
 	name         string
+	active       uint32
 	workers      chan int
 	jobQueue     *maxpq.PQ
 	panicHandler func(alias string, err interface{})
+	shutDownCh   chan bool
 	wg           *sync.WaitGroup
 }
+
+// panic aliases and messages
+const (
+	AliasSubmitPanic    = "SubmitJob"
+	AliasSchedulePanic  = "JobQueue"
+	ErrSubmitOnShutDown = "Pool is shut down"
+)
 
 /***************************************************************************
 * Worker Pool APIs
@@ -23,9 +33,11 @@ type Pool struct {
 func New(name string, workers int, panicHandler func(alias string, err interface{})) *Pool {
 	pool := &Pool{
 		name:         name,
+		active:       uint32(1),
 		workers:      make(chan int, workers),
 		jobQueue:     maxpq.New(),
 		panicHandler: panicHandler,
+		shutDownCh:   make(chan bool, 1),
 		wg:           &sync.WaitGroup{},
 	}
 	for i := 1; i <= workers; i++ {
@@ -39,9 +51,13 @@ func New(name string, workers int, panicHandler func(alias string, err interface
 func (pool *Pool) Submit(job func(), priority float64) {
 	defer func() {
 		if err := recover(); err != nil {
-			pool.panicHandler("SubmitJob", err)
+			pool.panicHandler(AliasSubmitPanic, err)
 		}
 	}()
+	if atomic.LoadUint32(&pool.active) == uint32(0) {
+		panic(ErrSubmitOnShutDown)
+		return
+	}
 	node := maxpq.NewNode(job, priority)
 	pool.jobQueue.Insert(node)
 	pool.wg.Add(1)
@@ -53,6 +69,12 @@ func (pool *Pool) WaitGroup() *sync.WaitGroup {
 	return pool.wg
 }
 
+// ShutDown prevents pickup of next job from the queue
+// For stopping the already picked up work, use context
+func (pool *Pool) ShutDown() {
+	pool.shutDownCh <- true
+}
+
 /***************************************************************************
 * Helper functions
 ***************************************************************************/
@@ -60,8 +82,14 @@ func (pool *Pool) WaitGroup() *sync.WaitGroup {
 func (pool *Pool) start() {
 	go func() {
 		for {
-			if pool.jobQueue.Size() > 0 {
-				pool.schedule()
+			select {
+			case <-pool.shutDownCh:
+				atomic.StoreUint32(&pool.active, uint32(0))
+				return
+			default:
+				if pool.jobQueue.Size() > 0 {
+					pool.schedule()
+				}
 			}
 		}
 	}()
@@ -70,7 +98,7 @@ func (pool *Pool) start() {
 func (pool *Pool) schedule() {
 	defer func() {
 		if err := recover(); err != nil {
-			pool.panicHandler("JobQueue", err)
+			pool.panicHandler(AliasSchedulePanic, err)
 		}
 	}()
 	node, err := pool.jobQueue.Pop()
