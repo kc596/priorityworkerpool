@@ -49,7 +49,8 @@ func TestPoolError(t *testing.T) {
 		panicCount   = uint32(0)
 		panicHandler = func(alias string, err interface{}) {
 			atomic.AddUint32(&panicCount, 1)
-			fmt.Println(alias, err)
+			// Do work panic
+			assert.Equal(alias, fmt.Sprintf("%s-%d", poolName, 1))
 		}
 		pool     = New(poolName, numWorkers, panicHandler)
 		executed uint32
@@ -70,7 +71,8 @@ func TestPoolError2(t *testing.T) {
 		panicCount   = uint32(0)
 		panicHandler = func(alias string, err interface{}) {
 			atomic.AddUint32(&panicCount, 1)
-			fmt.Println(alias, err)
+			// Do work panic
+			assert.Equal(alias, fmt.Sprintf("%s-%d", poolName, 1))
 		}
 		pool     = New(poolName, numWorkers, panicHandler)
 		executed uint32
@@ -90,7 +92,8 @@ func TestScheduleError(t *testing.T) {
 		panicCount   = uint32(0)
 		panicHandler = func(alias string, err interface{}) {
 			atomic.AddUint32(&panicCount, 1)
-			fmt.Println(alias, err)
+			// Do work panic
+			assert.Equal(alias, AliasSchedulePanic)
 		}
 		pool = New(poolName, numWorkers, panicHandler)
 	)

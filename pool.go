@@ -85,6 +85,7 @@ func (pool *Pool) start() {
 			select {
 			case <-pool.shutDownCh:
 				atomic.StoreUint32(&pool.active, uint32(0))
+				pool.jobQueue = nil // for garbage collection
 				return
 			default:
 				if pool.jobQueue.Size() > 0 {
