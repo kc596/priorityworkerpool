@@ -38,3 +38,4 @@ Method | Return Type | Description
 ` New(name string, workers int, panicHandler func(alias string, err interface{})`|`*Pool` | Returns a new worker pool
 `Submit(job func(), priority float64)` | `void` | Submit a new job to worker pool
 `WaitGroup()` | `*sync.WaitGroup` | Returns waitgroup to wait for all jobs submitted to finish
+`ShutDown()` | `void` | Prevents pickup of next job from the queue
