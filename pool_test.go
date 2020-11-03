@@ -128,6 +128,6 @@ func TestPoolShutDown(t *testing.T) {
 	// shutdown after shutdown
 	pool.ShutDown()
 	pool.ShutDown()
-	assert.Zero(panicCount)
+	assert.Equal(uint32(1), panicCount)
 	assert.Equal(uint32(1), atomic.LoadUint32(&executed))
 }
