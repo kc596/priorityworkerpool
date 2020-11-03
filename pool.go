@@ -72,6 +72,9 @@ func (pool *Pool) WaitGroup() *sync.WaitGroup {
 // ShutDown prevents pickup of next job from the queue
 // For stopping the already picked up work, use context
 func (pool *Pool) ShutDown() {
+	if atomic.LoadUint32(&pool.active) == uint32(0) {
+		return
+	}
 	pool.shutDownCh <- true
 }
 
@@ -85,7 +88,8 @@ func (pool *Pool) start() {
 			select {
 			case <-pool.shutDownCh:
 				atomic.StoreUint32(&pool.active, uint32(0))
-				pool.jobQueue = nil // for garbage collection
+				pool.jobQueue.Clear()
+				close(pool.shutDownCh)
 				return
 			default:
 				if pool.jobQueue.Size() > 0 {

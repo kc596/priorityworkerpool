@@ -124,4 +124,10 @@ func TestPoolShutDown(t *testing.T) {
 	pool.Submit(func() { atomic.AddUint32(&executed, 1) }, 1+rand.Float64())
 	assert.Equal(uint32(1), atomic.LoadUint32(&executed))
 	assert.Equal(uint32(1), panicCount)
+
+	// shutdown after shutdown
+	pool.ShutDown()
+	pool.ShutDown()
+	assert.Zero(panicCount)
+	assert.Equal(uint32(1), atomic.LoadUint32(&executed))
 }

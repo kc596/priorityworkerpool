@@ -2,6 +2,8 @@ github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/kc596/UGCPriorityQueue v1.2.3 h1:jVJ0nMT8W7Y9KYfBFhz3/1guLiGzyIpFmz8ABavh65c=
 github.com/kc596/UGCPriorityQueue v1.2.3/go.mod h1:gxnMPbwjCHqnHngEq3VcE8Cx3MQXOwK3U6dmMGyNoDU=
+github.com/kc596/UGCPriorityQueue v1.2.5 h1:/rcTVRZS59XrGx+sZI474t0skQqO/hYj4PngQ2ssl0A=
+github.com/kc596/UGCPriorityQueue v1.2.5/go.mod h1:gxnMPbwjCHqnHngEq3VcE8Cx3MQXOwK3U6dmMGyNoDU=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
