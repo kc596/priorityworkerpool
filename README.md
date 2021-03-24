@@ -33,6 +33,8 @@ job := func() {
 pool.Submit(job, 1+rand.Float64())
 ```
 
+A complete example : [Here](https://goplay.space/#DIM2U6jBjwY)
+
 ### APIs
 
 Method | Return Type | Description
