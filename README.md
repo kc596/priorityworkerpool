@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/kc596/priorityworkerpool.svg?branch=master)](https://travis-ci.org/kc596/priorityworkerpool)
 [![codecov](https://codecov.io/gh/kc596/priorityworkerpool/branch/master/graph/badge.svg?token=4TOHO1P4XV)](https://codecov.io/gh/kc596/priorityworkerpool)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kc596/priorityworkerpool?kill_cache=1)](https://goreportcard.com/report/github.com/kc596/priorityworkerpool)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a51cd48917a2ffc56aba/maintainability)](https://codeclimate.com/github/kc596/priorityworkerpool/maintainability)
 
 A worker pool in GoLang which schedules job according to priority.
 
